@@ -1,8 +1,8 @@
 const facts = [
-  "Echt",
-  "EEN",
-  "Baller!",
-  "Ik heb moeilijk veel trek in een cheeseburger."
+  "ik ben heel slim",
+  "ik hou van gamen",
+  "ik haat witlof en rode kool!",
+  "ik hou van manga lezen"
 ];
 
 document.getElementById("factButton").addEventListener("click", function() {
