@@ -3,10 +3,20 @@ body {
   max-width: 500px;
   margin: 60px auto;
   text-align: center;
+  font-size: 42px;
 }
 
 button {
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
+  padding: 30px 60px;
+  font-size: 64px;
+  font-weight: bold;
+  cursor: crosshair;
+  border-radius: 20px;
+  border: 6px solid black;
+  box-shadow: 6px 6px 0px rgba(0,0,0,0.4);
+  transition: transform 0.15s ease;
+}
+
+button:hover {
+  transform: scale(1.1);
 }
