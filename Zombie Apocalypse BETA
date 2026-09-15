@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Zombie Apocalypse</title>
+<style>
+  /* We zetten het canvas mooi in het midden van het scherm */
+  body {
+    margin: 0;
+    background: #1a1a1a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: sans-serif;
+  }
+
+  canvas {
+    background: #4a7c3f; /* grasgroen, ons "veld" */
+    border: 4px solid #111;
+  }
+</style>
+</head>
+<body>
+
+<!-- Dit is ons digitale tekenpapier -->
+<canvas id="gameCanvas" width="800" height="500"></canvas>
+
+<script>
+  // We pakken het canvas en de "pen" (ctx = context) waarmee we erop tekenen
+  const canvas = document.getElementById('gameCanvas');
+  const ctx = canvas.getContext('2d');
+
+  // De speler: een object met een positie (x, y), grootte, snelheid en kleur.
+  // x en y zijn coördinaten, net als op een schatkaart: x = hoe ver naar rechts,
+  // y = hoe ver naar onderen.
+  const player = {
+    x: canvas.width / 2,
+    y: canvas.height / 2,
+    size: 30,
+    speed: 4,        // hoeveel pixels de speler per stapje beweegt
+    color: '#ffcc00'
+  };
+
+  // Hierin onthouden we welke toetsen op dit moment ingedrukt zijn.
+  // Bijvoorbeeld: keysPressed['ArrowUp'] wordt true zolang je die toets vasthoudt.
+  const keysPressed = {};
+
+  window.addEventListener('keydown', (event) => {
+    keysPressed[event.key] = true;
+  });
+
+  window.addEventListener('keyup', (event) => {
+    keysPressed[event.key] = false;
+  });
+
+  // Kijkt welke toetsen ingedrukt zijn en verplaatst de speler een stukje.
+  // Pijltjestoetsen EN wasd werken allebei, net wat je prettiger vindt.
+  function updatePlayer() {
+    if (keysPressed['ArrowUp'] || keysPressed['w']) player.y -= player.speed;
+    if (keysPressed['ArrowDown'] || keysPressed['s']) player.y += player.speed;
+    if (keysPressed['ArrowLeft'] || keysPressed['a']) player.x -= player.speed;
+    if (keysPressed['ArrowRight'] || keysPressed['d']) player.x += player.speed;
+  }
+
+  // Tekent de speler als een geel vierkantje op zijn huidige positie
+  function drawPlayer() {
+    ctx.fillStyle = player.color;
+    ctx.fillRect(
+      player.x - player.size / 2,
+      player.y - player.size / 2,
+      player.size,
+      player.size
+    );
+  }
+
+  // De "game loop": deze functie roept zichzelf steeds opnieuw aan,
+  // ongeveer 60 keer per seconde. Zo ontstaat de illusie van beweging,
+  // net als een flipboekje met plaatjes die net iets verschillen.
+  function gameLoop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // scherm leegmaken
+    updatePlayer();                                    // positie bijwerken
+    drawPlayer();                                       // opnieuw tekenen
+    requestAnimationFrame(gameLoop);                    // volgende frame plannen
+  }
+
+  gameLoop(); // en... actie!
+</script>
+
+</body>
+</html>
